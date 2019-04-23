@@ -45,3 +45,22 @@ def attribute_to_split(data,variables,target):
     variable_name=variables[feature_index]
     
     return data[variable_name], variable_name
+
+class TreeNode:
+    def __init__(self):
+        self.value=None
+        self.index=None
+        self.children=None
+        
+    def add_child(self, node):
+        assert isinstance(node, TreeNode)
+        self.children.append(node)
+
+Tree=TreeNode()
+
+def build_tree(data_to_split,data,variables,target,tree,additional_memory_for_label,minimum_per_row=10):
+    if len(np.unique(data_to_split[target]))==1:
+        return np.unique(data_to_split[target])[0]
+    
+    if len(data_to_split)<=minimum_per_row or len(variables)==0 :
+        #continue wiith putting the maximum labelof the original data
